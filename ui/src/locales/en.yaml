@@ -26,11 +26,15 @@ core:
       logout:
         tooltip: Logout
         title: Logout
-        description: Clicking Confirm will redirect to the logout page. Please ensure that the content you are editing is saved.
+        description: >-
+          Clicking Confirm will redirect to the logout page. Please ensure that
+          the content you are editing is saved.
       profile:
         tooltip: Profile
       visit_homepage:
         title: Visit homepage
+    profile:
+      aggregate_role: Aggregate Role
   uc_sidebar:
     menu:
       items:
@@ -40,6 +44,8 @@ core:
     operations:
       console:
         tooltip: Console
+    profile:
+      aggregate_role: Aggregate Role
   dashboard:
     title: Dashboard
     actions:
@@ -598,6 +604,8 @@ core:
       fields:
         display_name:
           label: Display name
+      toast:
+        group_name_exists: Group name already exists
     group_list:
       internal_groups:
         all: All
@@ -643,6 +651,8 @@ core:
       fields:
         display_name:
           label: Display name
+      toast:
+        policy_name_exists: Storage policy name already exists
     upload_modal:
       title: Upload attachment
       filters:
@@ -666,8 +676,8 @@ core:
     empty:
       title: There are no attachments.
       message: >-
-        There are no attachments, you can try refreshing or
-        uploading attachments.
+        There are no attachments, you can try refreshing or uploading
+        attachments.
       actions:
         upload: Upload Attachment
     filters:
@@ -1053,6 +1063,9 @@ core:
         role:
           label: Role
           placeholder: Please select a role
+      roles_preview:
+        all: The currently selected role contains all permissions
+        includes: "The currently selected role contains the following permissions:"
     detail:
       title: User detail
       tabs:
@@ -1062,6 +1075,8 @@ core:
           title: Update profile
         change_password:
           title: Change password
+          grant_permission:
+            title: Grant permission
         profile:
           title: Profile
       fields:
@@ -1457,7 +1472,9 @@ core:
         first: >-
           1. The restore process may last for a long time, please do not refresh
           the page during this period.
-        second: 2. Before performing the restore, all existing data will be cleared. Please ensure that there is no data that needs to be retained.
+        second: >-
+          2. Before performing the restore, all existing data will be cleared.
+          Please ensure that there is no data that needs to be retained.
         third: >-
           3. After the restore is completed, you need to restart Halo to load
           the system resources normally.
@@ -1472,6 +1489,12 @@ core:
             url: Remote URL
         backup:
           label: Restore from backup files
+          empty:
+            title: No backup files
+            message: >-
+              Currently no backup files are scanned. You can manually upload the
+              backup files to the backups directory of the Halo working
+              directory.
   exception:
     not_found:
       message: Page not found
@@ -1554,7 +1577,9 @@ core:
     Post Contributor: Contributions allowed
     Post Publisher: Allow to publish own posts
     UC Attachment Manage: Allow to manage own attachments
+    role-template-uc-attachment-manager: Allow to manage own attachments
     Recycle My Post: Recycle My Post
+    role-template-recycle-my-post: Recycle My Post
   components:
     submit_button:
       computed_text: "{text} ({shortcut})"
@@ -1673,7 +1698,9 @@ core:
       creation_label: Create {text} tag
     validation:
       trim: Please remove the leading and trailing spaces
-      password: "The password can only use uppercase and lowercase letters (A-Z, a-z), numbers (0-9), and the following special characters: !{'@'}#$%^&*"
+      password: >-
+        The password can only use uppercase and lowercase letters (A-Z, a-z),
+        numbers (0-9), and the following special characters: !{'@'}#$%^&*
     verification_form:
       no_action_defined: "{label} interface not defined"
       verify_success: "{label} successful"
@@ -1791,7 +1818,10 @@ core:
         editor_not_found: >-
           No editor found that matches the {raw_type} format. Please check if
           the editor plugin has been installed.
-        login_expired: The current session has expired. Click Confirm to go to the login page. Please ensure that the current content is saved. You can click Cancel to manually copy any unsaved content.
+        login_expired: >-
+          The current session has expired. Click Confirm to go to the login
+          page. Please ensure that the current content is saved. You can click
+          Cancel to manually copy any unsaved content.
     filters:
       results:
         keyword: "Keyword: {keyword}"
@@ -1832,7 +1862,9 @@ core:
         title: Cancel publish
       delete:
         title: Delete post
-        description: This action will move the post to the recycle bin, where it will be managed by the site administrator.
+        description: >-
+          This action will move the post to the recycle bin, where it will be
+          managed by the site administrator.
     publish_modal:
       title: Publish post
     setting_modal:

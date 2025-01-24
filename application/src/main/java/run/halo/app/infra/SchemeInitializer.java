@@ -13,7 +13,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.event.ApplicationContextInitializedEvent;
 import org.springframework.context.ApplicationListener;
@@ -288,7 +287,7 @@ public class SchemeInitializer implements ApplicationListener<ApplicationContext
                         return "0";
                     }
                     var stats = JsonUtils.jsonToObject(statsStr, Stats.class);
-                    return ObjectUtils.defaultIfNull(stats.getVisit(), 0).toString();
+                    return defaultIfNull(stats.getVisit(), 0).toString();
                 })));
 
             indexSpecs.add(new IndexSpec()
@@ -300,7 +299,7 @@ public class SchemeInitializer implements ApplicationListener<ApplicationContext
                         return "0";
                     }
                     var stats = JsonUtils.jsonToObject(statsStr, Stats.class);
-                    return ObjectUtils.defaultIfNull(stats.getTotalComment(), 0).toString();
+                    return defaultIfNull(stats.getTotalComment(), 0).toString();
                 })));
         });
         schemeManager.register(Category.class, indexSpecs -> {
@@ -498,6 +497,13 @@ public class SchemeInitializer implements ApplicationListener<ApplicationContext
                 )
             );
             is.add(new IndexSpec()
+                .setName("spec.deleted")
+                .setIndexFunc(simpleAttribute(SinglePage.class, page -> {
+                    var deleted = defaultIfNull(page.getSpec().getDeleted(), false);
+                    return String.valueOf(deleted);
+                }))
+            );
+            is.add(new IndexSpec()
                 .setName("spec.visible")
                 .setIndexFunc(
                     simpleAttribute(SinglePage.class, page -> Optional.ofNullable(page.getSpec())
@@ -601,11 +607,22 @@ public class SchemeInitializer implements ApplicationListener<ApplicationContext
         schemeManager.register(PolicyTemplate.class);
         schemeManager.register(Thumbnail.class, indexSpec -> {
             indexSpec.add(new IndexSpec()
+                // see run.halo.app.core.attachment.ThumbnailMigration
+                // .setUnique(true)
                 .setName(Thumbnail.ID_INDEX)
                 .setIndexFunc(simpleAttribute(Thumbnail.class, Thumbnail::idIndexFunc))
             );
         });
         schemeManager.register(LocalThumbnail.class, indexSpec -> {
+            // make sure image and size are unique
+            indexSpec.add(new IndexSpec()
+                // see run.halo.app.core.attachment.ThumbnailMigration
+                // .setUnique(true)
+                .setName(LocalThumbnail.UNIQUE_IMAGE_AND_SIZE_INDEX)
+                .setIndexFunc(simpleAttribute(LocalThumbnail.class,
+                    LocalThumbnail::uniqueImageAndSize)
+                )
+            );
             indexSpec.add(new IndexSpec()
                 .setName("spec.imageSignature")
                 .setIndexFunc(simpleAttribute(LocalThumbnail.class,

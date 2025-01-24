@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Halo",
-    "version": "2.20.0-SNAPSHOT"
+    "version": "2.20.11-SNAPSHOT"
   },
   "servers": [
     {
@@ -6559,7 +6559,7 @@
           }
         },
         "tags": [
-          "api.notification.halo.run/v1alpha1/Subscription"
+          "NotificationV1alpha1Public"
         ]
       }
     },
@@ -15679,6 +15679,31 @@
           "AttachmentV1alpha1Uc"
         ]
       }
+    },
+    "/system/setup": {
+      "get": {
+        "description": "Jump to setup page",
+        "operationId": "JumpToSetupPage",
+        "responses": {
+          "default": {
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "default response"
+          }
+        },
+        "tags": [
+          "SystemV1alpha1Public"
+        ]
+      },
+      "post": {
+        "operationId": "SetNoCacheForSetUpPage",
+        "responses": {}
+      }
     }
   },
   "components": {
@@ -19366,10 +19391,10 @@
           "menuItems": {
             "uniqueItems": true,
             "type": "array",
-            "description": "Names of menu children below this menu.",
+            "description": "Menu items of this menu.",
             "items": {
               "type": "string",
-              "description": "Names of menu children below this menu."
+              "description": "Name of menu item."
             }
           }
         },
